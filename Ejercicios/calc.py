@@ -23,7 +23,7 @@ def calculate(args):
         total = args.n/args.m
     else:
         print("Error con los argumentos. Vuelva a intentarlo.")
-    
+
     print(args.n, args.o, args.m, "=", total)
 
 
