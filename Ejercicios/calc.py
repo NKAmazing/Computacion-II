@@ -26,7 +26,7 @@ def calculadora():
     elif operacion == '-':
         total = (n - m)
         print('El resultado es: ', total)
-    elif operacion == '*':
+    elif operacion == 'x':
         total = (n * m)
         print('El resultado es: ', total)
     elif operacion == '/':
