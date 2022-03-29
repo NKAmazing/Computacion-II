@@ -13,7 +13,7 @@ def main():
     parser.add_argument("-l", type=str, help="Escribir nombre de archivo log")
     args = parser.parse_args()
     exist(args)
-    comando(args)
+    command(args)
 
 
 def exist(args):
@@ -27,7 +27,7 @@ def exist(args):
         archivo_l = open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.l}.txt", "w")
 
 
-def comando(args):
+def command(args):
         p = Popen(["{}".format(args.c)], stdout=PIPE, stderr=PIPE)
         out, err = p.communicate()
         if p.returncode == 0:
