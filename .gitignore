@@ -130,3 +130,5 @@ dmypy.json
 
 /bin
 .idea
+test.txt
+test2.txt

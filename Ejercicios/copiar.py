@@ -1,22 +1,20 @@
-import argparse
-from ast import arg
-from asyncore import read
+import argparse as arg
 import sys
 import os
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = arg.ArgumentParser(description="Programa para copiar archivos")
     parser.add_argument('-i', type=str, help="Ingresa el nombre de un archivo existente.")
-    parser.add_argument('-o', type=str, help="Ingrese el nombre del archivo donde se copiara el contenido.")
+    parser.add_argument('-o', type=str, help="Ingrese el nombre del nuevo archivo.")
     args = parser.parse_args()
     sys.stdout.write(str(copy(args)))
 
 
 def copy(args):
-    args1 = args.i
+    args_2 = args.i
 
-    if os.path.exists(args1) == True:
+    if os.path.exists(args_2):
         exist = open(args.i, "r")
         content = exist.read()
         print(content)
@@ -28,6 +26,6 @@ def copy(args):
                     return "Se ha copiado el archivo exitosamente."
     else:
         print("El archivo no existe.")
-if __name__=='__main__':
-    main()
 
+
+main()
