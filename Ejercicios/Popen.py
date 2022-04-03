@@ -29,6 +29,7 @@ def exist(args):
 
 def command(args):
         p = Popen(["{}".format(args.c)], stdout=PIPE, stderr=PIPE)
+        # universal_newlines=True (/n imprime como enter)
         out, err = p.communicate()
         if p.returncode == 0:
             msg_1 = (now + f": Comando {args.c} ejecutado correctamente")
