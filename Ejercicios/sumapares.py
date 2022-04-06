@@ -36,8 +36,8 @@ def execute(args, suma):
                 suma_pares(pid,ppid, suma)
                 os._exit(0)
     # aparece el padre
-    time.sleep(3)
-    os.wait()
+    for i in range(args.n):
+        os.wait()
     print('El proceso de suma ha terminado')
             
             
