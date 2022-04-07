@@ -2,7 +2,6 @@ import os, time, subprocess, argparse
 
 
 def main():
-    suma = 0
     parser = argparse.ArgumentParser(description="Linea de comandos")
     parser = argparse.ArgumentParser(add_help=False)
     group = parser.add_mutually_exclusive_group()
@@ -15,10 +14,10 @@ def main():
     else:
         print("Ejecutado sin ayuda.\n")
     if args.n:
-        execute(args, suma)
+        execute(args)
         
 
-def execute(args, suma):
+def execute(args):
     # ejecuto fork en un for, en rango de la cantidad indicada en -n 
     for i in range(args.n):
         retorno = os.fork()
@@ -29,22 +28,24 @@ def execute(args, suma):
         if retorno == 0:
             # chequea si se ejecuto con modo verbose
             if args.v:
-                mode_verbose(pid, ppid, suma)
+                mode_verbose(pid, ppid)
                 os._exit(0)
             # si no se ejecuto el -v ejecuta la suma de modo normal
             else:
-                suma_pares(pid,ppid, suma)
+                suma_pares(pid,ppid)
                 os._exit(0)
     # aparece el padre
     for i in range(args.n):
         os.wait()
+    time.sleep(1)
     print('El proceso de suma ha terminado')
             
             
     
   
 
-def suma_pares(pid, ppid, suma):
+def suma_pares(pid, ppid):
+    suma = 0
     for g in range(0, pid + 1):
         if g % 2 == 0:
             suma += g
@@ -58,10 +59,10 @@ def help_usage(args):
           'sumas de pares.\n')
 
 
-def mode_verbose(pid, ppid, suma):
+def mode_verbose(pid, ppid):
     print('Starting process', pid)
     time.sleep(1)
-    suma_pares(pid, ppid, suma)
+    suma_pares(pid, ppid)
     time.sleep(1)
     print('Ending process', pid)
 
