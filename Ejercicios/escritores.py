@@ -1,5 +1,5 @@
 import os, argparse, time, string
-import subprocess as sp
+
 
 def main():
     global PID_lista, dicc_proc, lista
@@ -7,11 +7,9 @@ def main():
     dicc_proc = {}
     lista = list(string.ascii_uppercase)
     parser = argparse.ArgumentParser(description="Linea de comandos")
-    # parser = argparse.ArgumentParser(add_help=False)
     group = parser.add_mutually_exclusive_group()
     parser.add_argument("-n", type=int, help="Elegir numero")
     parser.add_argument("-r", type=int, help="Elige veces que se repite la letra")
-    # group.add_argument("-he", action='store_true', help="Activa ayuda de uso")
     parser.add_argument("-f", type=str, help="Introduzca nombre de archivo")
     group.add_argument("-v", action='store_true', help="Activa modo verbose")
     args = parser.parse_args()
@@ -31,17 +29,18 @@ def execute_fork(args):
         # aparece el hijo
         if retorno == 0:
             pid = os.getpid()
-            with open(f"/home/nk-nicolas/Documentos/Apuntes/Personal-Projects/Ejemplos/Python/{args.f}.txt", "a") as fd:
-                fd.write(str(pid) + ",")
+            PID_lista.append(pid)
+            # with open(f"/home/nk-nicolas/Documentos/Apuntes/Personal-Projects/Ejemplos/Python/{args.f}.txt", "a") as fd:
+            #     fd.write(str(pid) + ",")
             # chequea si se ejecuto con modo verbose
             if args.v:
                 mode_verbose(os.getpid())
-                convert(args)
+                # convert(args)
                 execute(args)
                 os._exit(0)
             # si no se ejecuto el -v ejecuta el almacenamiento de letra
             else:
-                convert(args)
+                # convert(args)
                 execute(args)
                 os._exit(0)
     # aparece el padre
@@ -85,19 +84,18 @@ def create_file(args):
         fd = open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "r")
     else:
         fd = open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "w+")
-    
-    # proc1 = sp.Popen(["A"], shell=True, stdout=sp.PIPE)
+    fd.close
 
-def convert(args):
-    with open(f"/home/nk-nicolas/Documentos/Apuntes/Personal-Projects/Ejemplos/Python/{args.f}.txt", "r") as fd:
-        lines = fd.read().split(",")
+# def convert(args):
+#     with open(f"/home/nk-nicolas/Documentos/Apuntes/Personal-Projects/Ejemplos/Python/{args.f}.txt", "r") as fd:
+#         lines = fd.read().split(",")
 
-        for line in lines:
-            print(line)
-            PID_lista.append(line)
+#         for line in lines:
+#             # print(line)
+#             PID_lista.append(line)
         
-        PID_lista.remove("")
-        print(PID_lista)
+#         PID_lista.remove("")
+#         print(PID_lista)
         
 
 def store_letter(args):
