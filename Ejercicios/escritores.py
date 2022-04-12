@@ -3,9 +3,13 @@ import os, argparse, time, string
 
 def main():
     global PID_lista, dicc_proc, lista
+    # creo una lista vacia para almacenar los pid
     PID_lista = []
+    # creo un diccionario para almacenar como clave los pid de la lista y guardar su valor como una letra
     dicc_proc = {}
+    # creo una lista con el patron de abecedario
     lista = list(string.ascii_uppercase)
+    # le paso argumentos al codigo
     parser = argparse.ArgumentParser(description="Linea de comandos")
     group = parser.add_mutually_exclusive_group()
     parser.add_argument("-n", type=int, help="Elegir numero")
@@ -13,6 +17,7 @@ def main():
     parser.add_argument("-f", type=str, help="Introduzca nombre de archivo")
     group.add_argument("-v", action='store_true', help="Activa modo verbose")
     args = parser.parse_args()
+    # utilizo un if para ejecutarlo y llamar a sus funciones
     if args.n and args.r and args.f:
         create_file(args)
         execute_fork(args)
@@ -29,53 +34,28 @@ def execute_fork(args):
         # aparece el hijo
         if retorno == 0:
             pid = os.getpid()
-            PID_lista.append(pid)
-            # with open(f"/home/nk-nicolas/Documentos/Apuntes/Personal-Projects/Ejemplos/Python/{args.f}.txt", "a") as fd:
-            #     fd.write(str(pid) + ",")
-            # chequea si se ejecuto con modo verbose
-            if args.v:
-                mode_verbose(os.getpid())
-                # convert(args)
-                execute(args)
-                os._exit(0)
-            # si no se ejecuto el -v ejecuta el almacenamiento de letra
-            else:
-                # convert(args)
-                execute(args)
-                os._exit(0)
+            global letra
+            letra = lista[i]
+            
+            execute(args, pid)
+            os._exit(0)
+    
     # aparece el padre
     time.sleep(1)
-
-    # with open(f"/home/nk-nicolas/Documentos/Apuntes/Personal-Projects/Ejemplos/Python/{args.f}.txt", "r") as fd:
-    #     lines = fd.read().split(",")
-
-    #     for line in lines:
-    #         print(line)
-    #         PID_lista.append(line)
-        
-    #     PID_lista.remove("")
-    #     print(PID_lista)
-
     for i in range(args.n):
         os.wait()
     time.sleep(1)
-    print('El proceso de suma ha terminado')
-    print(dicc_proc)
+    print("El proceso ha terminado de cargar los datos")
 
-def execute(args):
-    # creo una lista con el patron de abecedario
-    i = 0
-    # uso un for para recorrer la lista de PIDs y agrego al diccionario de procesos las letras
-    for g in range(len(PID_lista)):
-        dicc_proc[PID_lista[g]] = lista[i]
-        i += 1
+def execute(args, pid):
+    # ejecuto un if para probar cuantas veces paso la misma letra
     if args.r >= 1:
         for g in range(args.r):
+            # chequea si se ejecuto con modo verbose
+            if args.v:
+                mode_verbose(pid)
+            # si no se ejecuto el -v ejecuta el almacenamiento de letra
             store_letter(args)
-        # print("El proceso ha terminado de cargar los datos")
-    # elif args.r == 1:
-    #         store_letter(dicc_proc)
-    #         # print("El proceso ha terminado de cargar los datos")
     else:
         print("Error en el argumento -r")
 
@@ -86,36 +66,14 @@ def create_file(args):
         fd = open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "w+")
     fd.close
 
-# def convert(args):
-#     with open(f"/home/nk-nicolas/Documentos/Apuntes/Personal-Projects/Ejemplos/Python/{args.f}.txt", "r") as fd:
-#         lines = fd.read().split(",")
-
-#         for line in lines:
-#             # print(line)
-#             PID_lista.append(line)
-        
-#         PID_lista.remove("")
-#         print(PID_lista)
-        
-
 def store_letter(args):
-    for i in dicc_proc.values():
-        with open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "a") as fd:
-            fd.write(str(i))
-            fd.flush()
-            time.sleep(1)
-    
-    # i = 0
-    # for g in range(PID_lista):
-    #     dicc_proc[PID_lista[g]] = lista_abc[i]
-    #     print(f'{dicc_proc.values(g)}')
-    #     i += 1
+    with open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "a") as fd:
+        fd.write(str(letra))
+        fd.flush()
+        time.sleep(1)
 
-def mode_verbose(pid, dicc_proc):
-    print(f"Proceso {pid} escribiendo letra '{dicc_proc(pid)}'")
-    time.sleep(1)
-
-    
+def mode_verbose(pid):
+    print(f"Proceso {pid} escribiendo letra '{letra}'")
 
 if __name__ == '__main__':
     main()
