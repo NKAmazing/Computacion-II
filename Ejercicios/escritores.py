@@ -2,11 +2,7 @@ import os, argparse, time, string
 
 
 def main():
-    global PID_lista, dicc_proc, lista
-    # creo una lista vacia para almacenar los pid
-    PID_lista = []
-    # creo un diccionario para almacenar como clave los pid de la lista y guardar su valor como una letra
-    dicc_proc = {}
+    global lista
     # creo una lista con el patron de abecedario
     lista = list(string.ascii_uppercase)
     # le paso argumentos al codigo
@@ -25,6 +21,12 @@ def main():
         print("Faltan argumentos que pasarle a la terminal.")
         print("Para mas detalles, utilice -h o --help para recibir mas ayuda.")
 
+def create_file(args):
+    if os.path.exists(args.f):
+        fd = open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "r")
+    else:
+        fd = open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "w+")
+    fd.close
 
 def execute_fork(args):
     # ejecuto fork en un for, en rango de la cantidad indicada en -n 
@@ -36,12 +38,9 @@ def execute_fork(args):
             pid = os.getpid()
             global letra
             letra = lista[i]
-            
             execute(args, pid)
             os._exit(0)
-    
     # aparece el padre
-    time.sleep(1)
     for i in range(args.n):
         os.wait()
     time.sleep(1)
@@ -59,21 +58,14 @@ def execute(args, pid):
     else:
         print("Error en el argumento -r")
 
-def create_file(args):
-    if os.path.exists(args.f):
-        fd = open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "r")
-    else:
-        fd = open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "w+")
-    fd.close
+def mode_verbose(pid):
+    print(f"Proceso {pid} escribiendo letra '{letra}'")
 
 def store_letter(args):
     with open(f"/home/nk-nicolas/Documentos/Computacion-II/Ejercicios/{args.f}.txt", "a") as fd:
         fd.write(str(letra))
         fd.flush()
         time.sleep(1)
-
-def mode_verbose(pid):
-    print(f"Proceso {pid} escribiendo letra '{letra}'")
 
 if __name__ == '__main__':
     main()
