@@ -3,7 +3,7 @@ import os, argparse, time
 
 def main():
     # creo el texto que le voy a cargar al archivo
-    text = """Hola Mundo\nque tal\neste es un archivo\nde ejemplo."""
+    text = """Hola Mundo \nque tal \neste es un archivo \nde ejemplo."""
     # le paso argumentos al codigo
     parser = argparse.ArgumentParser(description="Inversor de cadenas.\n Escriba path de archivo y el programa invertira las lineas de texto de ese archivo.")
     parser.add_argument("-f", type=str, help="Introduzca path de archivo")
