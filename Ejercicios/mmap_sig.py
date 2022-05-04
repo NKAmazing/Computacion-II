@@ -30,7 +30,6 @@ def handler_parent(s, f):
         print("Padre saliendo")
         sys.exit(0)
 
-
 def handler_child(s, f):
     if s == signal.SIGUSR1:
         # recibe la señal, lee la memoria y guarda en el archivo
