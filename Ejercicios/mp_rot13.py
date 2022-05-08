@@ -1,8 +1,6 @@
 import multiprocessing as mp
 import sys
 import time
-import string
-import re
 import os
 
 def main():
@@ -41,11 +39,12 @@ def child_funtion(msg, q, fd):
     sys.stdin = os.fdopen(fd)
     print("Child 1 writing on Pipe...\n")
     for line in sys.stdin:
-        print("writing: ", line)
         if line[:4] == "stop":
+            print("Stoping stdin...\n")
             break  
+        print("writing: ", line)
         msg_list.append(line.strip("\n"))
-    print(msg_list, "\n")
+    # print(msg_list, "\n")
 
     for data in range(len(msg_list)):
         msg.send(msg_list[data])
@@ -64,13 +63,10 @@ def child2_funtion(a, q):
 
 def rot13(word, q):
     print("Sending message to queue...\n")
-    patt = '[A-Z]'
-    if re.search(patt, word):
-        word = word.lower()
-    chars = string.ascii_lowercase
-    trans = chars[13:] + chars[:13]
+    chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+    trans = chars[26:] + chars[:26]
     rot_char = lambda c: trans[chars.find(c)] if chars.find(c)>-1 else c
-    q.put(''.join( rot_char(c) for c in word ))
+    q.put(''.join( rot_char(c) for c in word))
 
 if __name__ == '__main__':
     main()
