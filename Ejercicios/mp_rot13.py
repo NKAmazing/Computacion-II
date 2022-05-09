@@ -37,29 +37,36 @@ def main():
 def child_funtion(msg, q, fd):
     # re abro fd en este proceso
     sys.stdin = os.fdopen(fd)
+    print("To stop writing, type 'stop'.")
     print("Child 1 writing on Pipe...\n")
+    
+
     for line in sys.stdin:
+        msg_list.append(line.strip("\n"))
         if line[:4] == "stop":
             print("Stoping stdin...\n")
             break  
         print("writing: ", line)
-        msg_list.append(line.strip("\n"))
-    # print(msg_list, "\n")
 
     for data in range(len(msg_list)):
         msg.send(msg_list[data])
     msg.close()
     time.sleep(1)
     print("Child 1 reading from queue: ")
-    for i in range(len(msg_list)):
+    for i in range(len(msg_list) - 1):
         print("-", q.get())
 
 def child2_funtion(a, q):
-    for msg in range(2):
+    cond = True
+    while cond == True:
         word = str(a.recv())
-        print("Reading from pipe: ")
-        print("-", word)
-        rot13(word, q)
+        if word == 'stop':
+            break
+        else:
+            print("Reading from pipe: ")
+            print("-", word)
+            rot13(word, q)
+    a.close()
 
 def rot13(word, q):
     print("Sending message to queue...\n")
