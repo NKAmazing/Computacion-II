@@ -32,6 +32,7 @@ def main():
 
     # termina el padre
     time.sleep(1)
+    print("\n")
     print("Parent process: We're done here")
     
 def child_funtion(msg, q, fd):
@@ -40,16 +41,19 @@ def child_funtion(msg, q, fd):
     print("To stop writing, type 'stop'.")
     print("Child 1 writing on Pipe...\n")
     
-
+    # escribo por terminal
     for line in sys.stdin:
+        # agrego cada linea a una lista
         msg_list.append(line.strip("\n"))
         if line[:4] == "stop":
             print("Stoping stdin...\n")
             break  
         print("writing: ", line)
 
+    # envio cada dato de la lista por un extremo del pipe
     for data in range(len(msg_list)):
         msg.send(msg_list[data])
+    # cierro el extremo del pipe despues de enviar los datos
     msg.close()
     time.sleep(1)
     print("Child 1 reading from queue: ")
@@ -59,20 +63,28 @@ def child_funtion(msg, q, fd):
 def child2_funtion(a, q):
     cond = True
     while cond == True:
+        # recibo los mensajes a traves el pipe
         word = str(a.recv())
         if word == 'stop':
             break
         else:
+            # le por el pipe
             print("Reading from pipe: ")
             print("-", word)
+            # llamo a la funcion para encriptar a rot13
             rot13(word, q)
+    # cierro el otro extremo del pipe
     a.close()
 
 def rot13(word, q):
     print("Sending message to queue...\n")
+    # defino chars
     chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+    # rota los caracteres de chars
     trans = chars[26:] + chars[:26]
+    # paso argumento c (letra) a traves de lambda y utilizo un find por cada letra de mi palabra
     rot_char = lambda c: trans[chars.find(c)] if chars.find(c)>-1 else c
+    # utilizo un join para unir cada c como un solo string
     q.put(''.join( rot_char(c) for c in word))
 
 if __name__ == '__main__':
