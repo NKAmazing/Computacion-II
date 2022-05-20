@@ -1,12 +1,5 @@
 # CONSTANTS
 
-# data
-MATRIX = '''
-1, 2, 3
-
-4, 5, 6
-'''
-
 # errors - out of range - empty messages
 ARGS_ERR = "Need more arguments to execute the program."
 UNK_OP = "ERROR. Unknown operation."
@@ -17,6 +10,7 @@ SQRT_MSG = "calculating the square root of: "
 LOG_MSG = "calculating the logarithm of: "
 PS_PID_MSG = "Process"
 RESULT_MSG = "Result of the operation: "
+END_MSG = "We're done here."
 
 
 # titles
