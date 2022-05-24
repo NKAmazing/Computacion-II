@@ -30,7 +30,7 @@ def file_operator(args):
     # revisa si no existe, en cuyo caso lo crea
     if not os.path.exists(args.f):
         with open(f"{args.f}", "w") as fd:
-            fd.write(array_mx)
+            fd.write(str(array_mx))
             fd.flush()
     # abro el archivo
     fd = open(f"{args.f}", "r")
