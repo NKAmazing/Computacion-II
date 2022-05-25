@@ -1,5 +1,10 @@
 # CONSTANTS
 
+# data
+
+MATRIX = '''1, 2, 3
+4, 5, 6'''
+
 # errors - out of range - empty messages
 ARGS_ERR = "Need more arguments to execute the program."
 UNK_OP = "ERROR. Unknown operation."
