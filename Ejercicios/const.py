@@ -16,6 +16,11 @@ LOG_MSG = "calculating the logarithm of: "
 PS_PID_MSG = "Process"
 RESULT_MSG = "Result of the operation: "
 END_MSG = "We're done here."
+PUT_Q_MSG = "Putting item: "
+L_ADDING_MSG = "Adding element to list: "
+THREAD_MSG = "Thread working on "
+THREAD_MSG_2 = "Thread finished "
+READ_MSG = "Reading... "
 
 
 # titles
