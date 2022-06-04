@@ -22,6 +22,10 @@ THREAD_MSG = "Thread working on "
 THREAD_MSG_2 = "Thread finished "
 READ_MSG = "Reading... "
 
+# arguments
+ARG_STR = "break"
+ARG_2_STR = "bye"
+ARG_ROT_13 = "rot13"
 
 # titles
 OP_TITLE = "Solving operation: "
