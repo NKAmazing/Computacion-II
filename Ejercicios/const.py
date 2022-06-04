@@ -10,17 +10,21 @@ ARGS_ERR = "Need more arguments to execute the program."
 UNK_OP = "ERROR. Unknown operation."
 
 # messages
+INPUT_MSG = "Enter a String: "
 SQP_MSG = "calculating the square power of: "
 SQRT_MSG = "calculating the square root of: "
 LOG_MSG = "calculating the logarithm of: "
 PS_PID_MSG = "Process"
 RESULT_MSG = "Result of the operation: "
 END_MSG = "We're done here."
-PUT_Q_MSG = "Putting item: "
+PUT_Q_MSG = "Putting item in queue: "
 L_ADDING_MSG = "Adding element to list: "
+Q_ADDING_MSG = "Adding element to queue: "
 THREAD_MSG = "Thread working on "
 THREAD_MSG_2 = "Thread finished "
+THREAD_MSG_3 = "Thread reading "
 READ_MSG = "Reading... "
+READ_PIPE_MSG = "Reading from pipe... "
 
 # arguments
 ARG_STR = "break"
