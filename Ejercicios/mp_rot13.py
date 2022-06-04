@@ -68,7 +68,7 @@ def child2_funtion(a, q):
         if word == 'stop':
             break
         else:
-            # le por el pipe
+            # lee por el pipe
             print("Reading from pipe: ")
             print("-", word)
             # llamo a la funcion para encriptar a rot13
