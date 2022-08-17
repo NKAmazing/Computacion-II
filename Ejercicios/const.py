@@ -25,6 +25,7 @@ THREAD_MSG_2 = "Thread finished "
 THREAD_MSG_3 = "Thread reading "
 READ_MSG = "Reading... "
 READ_PIPE_MSG = "Reading from pipe... "
+EXIT_PROCESS = "Finishing process..."
 
 # arguments
 ARG_STR = "break"
