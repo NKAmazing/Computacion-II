@@ -27,10 +27,15 @@ READ_MSG = "Reading... "
 READ_PIPE_MSG = "Reading from pipe... "
 EXIT_PROCESS = "Finishing process..."
 
+# Server args, msgs, addrs
+ADDR_CS = "Address: "
+RCV_MSG = "Received: "
+
 # arguments
 ARG_STR = "break"
 ARG_2_STR = "bye"
 ARG_ROT_13 = "rot13"
+CHAR_CODE = "ascii"
 
 # titles
 OP_TITLE = "Solving operation: "
