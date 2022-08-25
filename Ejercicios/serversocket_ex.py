@@ -29,27 +29,25 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
 @click.command()
-# @click.option('--command', prompt='Enter command',
-#             help=(cs.CMD_INFO_HELP))
-@click.option('--concurrency', prompt='Type of Concurrency', 
-            help=(cs.TYPE_CONC_HELP))
+@click.option('--port', prompt='Enter port', type=int, help=(cs.PORT_INFO_HELP))
+@click.option('--concurrency', prompt='Type of Concurrency', help=(cs.TYPE_CONC_HELP))
 
-def execute(concurrency):
+def execute(port, concurrency):
     
-    HOST, PORT = "localhost", 9999
+    HOST, PORT = "localhost", port
     socketserver.TCPServer.allow_reuse_address = True
 
-    click.echo(concurrency)
-
     if concurrency == 't':
-        # Create the server, binding to localhost on port 9999
+        print(cs.JUMP_LINE, cs.LAUNCH_SVT, cs.JUMP_LINE)
+        # Create the server, binding to localhost on a specific
         with ThreadedTCPServer((HOST, PORT), MyTCPHandler) as server:
             # Activate the server; this will keep running until you
             # interrupt the program with Ctrl-C
 
             server.serve_forever()
     elif concurrency == 'p':
-        # Create the server, binding to localhost on port 9999
+        print(cs.JUMP_LINE, cs.LAUNCH_SVP, cs.JUMP_LINE)
+        # Create the server, binding to localhost on a specific port
         with ForkedTCPServer((HOST, PORT), MyTCPHandler) as server:
             # Activate the server; this will keep running until you
             # interrupt the program with Ctrl-C

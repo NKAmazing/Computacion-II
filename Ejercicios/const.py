@@ -27,6 +27,8 @@ THREAD_MSG_3 = "Thread reading "
 READ_MSG = "Reading... "
 READ_PIPE_MSG = "Reading from pipe... "
 EXIT_PROCESS = "Finishing process..."
+LAUNCH_SVT = "Launching Server with Threads..."
+LAUNCH_SVP = "Launching Server with Process..."
 
 # Server args, msgs, addrs
 ADDR_CS = "Address: "
@@ -51,11 +53,11 @@ OP_ARG_HELP = '''Indicates calculation function.
                     - raiz (Square Root)
                     - log (Logarithm)
 '''
-TYPE_CONC_HELP = '''Argument to choose a type of concurrency. -->
-                                -Threading
-                                -Process   
+TYPE_CONC_HELP = '''Argument to choose a type of concurrency. --> 
+                            Threading (t) | Process (p)  
 '''
 CMD_INFO_HELP = "The command to execute."
+PORT_INFO_HELP = "The port where the server will attend."
 
 # help messages
 HELP_MSG = "To more details, use -h or --help to receive more help."
