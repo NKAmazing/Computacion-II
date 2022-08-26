@@ -7,20 +7,29 @@ import signal, os
 class MyTCPHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
-        # self.request is the TCP socket connected to the client
-        self.data = self.request.recv(1024).strip()
+        while True:
+            # self.request is the TCP socket connected to the client
+            self.data = self.request.recv(1024).strip()
 
-        print("{} wrote:".format(self.client_address[0]))
-        # print(self.data.decode)
-        print(self.data.decode(cs.CHAR_CODE))
-
-        p = subprocess.Popen([self.data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, 
-        universal_newlines=True)
-        out, err = p.communicate()
-        ndata = str(out)
-        out_data = (ndata).encode('ascii')
-        # send back the output of the command
-        self.request.sendall(out_data)
+            print("{} wrote:".format(self.client_address[0]))
+            # print(self.data.decode)
+            print(self.data.decode(cs.CHAR_CODE))
+            data_cmd = (self.data).decode()
+            data_cmd = str(data_cmd)
+            data_cmd = data_cmd.split()
+            p = subprocess.Popen(data_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
+            universal_newlines=True)
+            out, err = p.communicate()
+            if err == '':
+                ndata = str(out)
+                out_data = (ndata).encode('ascii')
+                # send back the output of the command
+                self.request.sendall(out_data)
+            elif out == '':
+                error_cmd = str(err)
+                err_data = (error_cmd).encode('ascii')
+                # send back the output of the command
+                self.request.sendall(err_data)
 
 class ForkedTCPServer(socketserver.ForkingMixIn, socketserver.TCPServer):
     pass
