@@ -2,7 +2,6 @@ import click
 import const as cs
 import subprocess
 import socketserver
-import signal, os
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
 
@@ -10,26 +9,28 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         while True:
             # self.request is the TCP socket connected to the client
             self.data = self.request.recv(1024).strip()
-
             print("{} wrote:".format(self.client_address[0]))
-            # print(self.data.decode)
             print(self.data.decode(cs.CHAR_CODE))
+            # Decoding data and converting to string
             data_cmd = (self.data).decode()
             data_cmd = str(data_cmd)
             data_cmd = data_cmd.split()
+            # Execute cmd with subprocess popen
             p = subprocess.Popen(data_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
             universal_newlines=True)
             out, err = p.communicate()
             if err == '':
                 ndata = str(out)
-                out_data = (ndata).encode('ascii')
+                out_data = (ndata).encode(cs.CHAR_CODE)
+                check_msg = (cs.SV_CHECK).encode(cs.CHAR_CODE)
                 # send back the output of the command
                 self.request.sendall(out_data)
+                self.request.sendall(check_msg)
             elif out == '':
                 error_cmd = str(err)
-                err_data = (error_cmd).encode('ascii')
+                err_data = (error_cmd).encode(cs.CHAR_CODE)
                 # send back the output of the command
-                self.request.sendall(err_data)
+                self.request.sendall(cs.SV_ERR_CHECK, err_data)
 
 class ForkedTCPServer(socketserver.ForkingMixIn, socketserver.TCPServer):
     pass
@@ -43,7 +44,7 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
 def execute(port, concurrency):
     
-    HOST, PORT = "localhost", port
+    HOST, PORT = cs.HOST_ARG, port
     socketserver.TCPServer.allow_reuse_address = True
 
     if concurrency == 't':

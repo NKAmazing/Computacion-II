@@ -9,6 +9,8 @@ MATRIX = '''1, 2, 3
 ARGS_ERR = "Need more arguments to execute the program."
 UNK_OP = "ERROR. Unknown operation."
 ARGS_ERR_2 = "There was an error with the argument you entered."
+SV_ERR = "Failed to create a socket."
+SV_ERR_CHECK = "ERROR ON CMD..."
 
 # messages
 INPUT_MSG = "Enter a String: "
@@ -29,6 +31,9 @@ READ_PIPE_MSG = "Reading from pipe... "
 EXIT_PROCESS = "Finishing process..."
 LAUNCH_SVT = "Launching Server with Threads..."
 LAUNCH_SVP = "Launching Server with Process..."
+SV_MSG = "SERVER REPLY: "
+CLIENT_MSG = "ENTER COMMAND TO SEND: "
+SV_CHECK = "OK..."
 
 # Server args, msgs, addrs
 ADDR_CS = "Address: "
@@ -39,6 +44,7 @@ ARG_STR = "break"
 ARG_2_STR = "bye"
 ARG_ROT_13 = "rot13"
 CHAR_CODE = "ascii"
+HOST_ARG = "localhost"
 
 # titles
 OP_TITLE = "Solving operation: "
