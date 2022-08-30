@@ -17,7 +17,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             data_cmd = data_cmd.split()
             # Execute cmd with subprocess popen
             p = subprocess.Popen(data_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
-            universal_newlines=True)
+            universal_newlines=True, shell=True)
             out, err = p.communicate()
             if err == '':
                 ndata = str(out)
@@ -29,8 +29,10 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             elif out == '':
                 error_cmd = str(err)
                 err_data = (error_cmd).encode(cs.CHAR_CODE)
+                check_msg = (cs.SV_ERR_CHECK).encode(cs.CHAR_CODE)
                 # send back the output of the command
-                self.request.sendall(cs.SV_ERR_CHECK, err_data)
+                self.request.sendall(err_data)
+                self.request.sendall(check_msg)
 
 class ForkedTCPServer(socketserver.ForkingMixIn, socketserver.TCPServer):
     pass
