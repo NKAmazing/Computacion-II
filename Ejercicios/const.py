@@ -64,6 +64,7 @@ TYPE_CONC_HELP = '''Argument to choose a type of concurrency. -->
 '''
 CMD_INFO_HELP = "The command to execute."
 PORT_INFO_HELP = "The port where the server will attend."
+HOST_INFO_HELP = "The host where the server will attend."
 
 # help messages
 HELP_MSG = "To more details, use -h or --help to receive more help."

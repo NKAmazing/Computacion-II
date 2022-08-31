@@ -1,7 +1,9 @@
+import pickle
 import click
 import const as cs
 import subprocess
 import socketserver
+import time
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
 
@@ -13,22 +15,23 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             print(self.data.decode(cs.CHAR_CODE))
             # Decoding data and converting to string
             data_cmd = (self.data).decode()
-            data_cmd = str(data_cmd)
-            data_cmd = data_cmd.split()
             # Execute cmd with subprocess popen
             p = subprocess.Popen(data_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
             universal_newlines=True, shell=True)
             out, err = p.communicate()
             if err == '':
-                ndata = str(out)
-                out_data = (ndata).encode(cs.CHAR_CODE)
+                # ndata = str(out)
+                out_data = (out).encode(cs.CHAR_CODE)
                 check_msg = (cs.SV_CHECK).encode(cs.CHAR_CODE)
                 # send back the output of the command
-                self.request.sendall(out_data)
-                self.request.sendall(check_msg)
+                list_data = [out_data, check_msg]
+                serializacion = pickle.dumps(list_data)
+                # self.request.sendall(out_data)
+                # self.request.sendall(check_msg)
+                self.request.sendall(serializacion)
             elif out == '':
-                error_cmd = str(err)
-                err_data = (error_cmd).encode(cs.CHAR_CODE)
+                # error_cmd = str(err)
+                err_data = (err).encode(cs.CHAR_CODE)
                 check_msg = (cs.SV_ERR_CHECK).encode(cs.CHAR_CODE)
                 # send back the output of the command
                 self.request.sendall(err_data)
@@ -41,8 +44,8 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
 @click.command()
-@click.option('--port', prompt='Enter port', type=int, help=(cs.PORT_INFO_HELP))
-@click.option('--concurrency', prompt='Type of Concurrency', help=(cs.TYPE_CONC_HELP))
+@click.option('-p', '--port', prompt='Enter port', type=int, help=(cs.PORT_INFO_HELP))
+@click.option('-c', '--concurrency', prompt='Type of Concurrency', help=(cs.TYPE_CONC_HELP))
 
 def execute(port, concurrency):
     
