@@ -22,14 +22,14 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                 out_data = (out).encode(cs.CHAR_CODE)
                 check_msg = (cs.SV_CHECK).encode(cs.CHAR_CODE)
                 # send back the output of the command
-                list_data = [out_data, check_msg]
+                list_data = [check_msg, out_data]
                 serialization = pickle.dumps(list_data)
                 self.request.sendall(serialization)
             elif out == '':
                 err_data = (err).encode(cs.CHAR_CODE)
                 check_msg = (cs.SV_ERR_CHECK).encode(cs.CHAR_CODE)
                 # send back the output of the command
-                list_data = [err_data, check_msg]
+                list_data = [check_msg, err_data] 
                 serialization = pickle.dumps(list_data)
                 self.request.sendall(serialization)
 
