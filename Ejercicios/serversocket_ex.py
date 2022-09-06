@@ -3,7 +3,6 @@ import click
 import const as cs
 import subprocess
 import socketserver
-import time
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
 
@@ -20,22 +19,19 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             universal_newlines=True, shell=True)
             out, err = p.communicate()
             if err == '':
-                # ndata = str(out)
                 out_data = (out).encode(cs.CHAR_CODE)
                 check_msg = (cs.SV_CHECK).encode(cs.CHAR_CODE)
                 # send back the output of the command
                 list_data = [out_data, check_msg]
-                serializacion = pickle.dumps(list_data)
-                # self.request.sendall(out_data)
-                # self.request.sendall(check_msg)
-                self.request.sendall(serializacion)
+                serialization = pickle.dumps(list_data)
+                self.request.sendall(serialization)
             elif out == '':
-                # error_cmd = str(err)
                 err_data = (err).encode(cs.CHAR_CODE)
                 check_msg = (cs.SV_ERR_CHECK).encode(cs.CHAR_CODE)
                 # send back the output of the command
-                self.request.sendall(err_data)
-                self.request.sendall(check_msg)
+                list_data = [err_data, check_msg]
+                serialization = pickle.dumps(list_data)
+                self.request.sendall(serialization)
 
 class ForkedTCPServer(socketserver.ForkingMixIn, socketserver.TCPServer):
     pass

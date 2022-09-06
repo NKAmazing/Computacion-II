@@ -20,15 +20,13 @@ def execute_client(host, port):
     while True:
         # To quit -->  press Ctrl + C
         msg = input(cs.CLIENT_MSG)
-        # Set the whole string
-        s.send(msg.encode(cs.CHAR_CODE))
-        msg = s.recv(1024)
-        msg_decode = pickle.loads(msg)
-        # print(cs.SV_MSG + cs.JUMP_LINE + msg.decode(cs.CHAR_CODE))
-        # print(cs.SV_MSG + cs.JUMP_LINE + msg[0].decode(cs.CHAR_CODE))
-        for i in range(len(msg_decode)):
-            print(msg_decode[i].decode(cs.CHAR_CODE))
-
+        if msg != '':
+            # Set the whole string
+            s.send(msg.encode(cs.CHAR_CODE))
+            msg = s.recv(1024)
+            msg_decode = pickle.loads(msg)
+            for i in range(len(msg_decode)):
+                print(msg_decode[i].decode(cs.CHAR_CODE))
 
 if __name__ == '__main__':
     execute_client()
