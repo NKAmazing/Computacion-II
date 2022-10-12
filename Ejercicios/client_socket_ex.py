@@ -4,17 +4,25 @@ import const as cs
 import click
 import pickle
 
-try:
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-except socket.error:
-    print(cs.SV_ERR)
-    sys.exit()
+def socket_create(p):
+    try:
+        if p == "ipv4":
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        elif p == "ipv6":
+            s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+    except socket.error:
+        print(cs.SV_ERR)
+        sys.exit()
+    return s
+            
 
 @click.command()
 @click.option('-ho', '--host', prompt='Enter host', type=str, help=(cs.HOST_INFO_HELP))
 @click.option('-p', '--port', prompt='Enter port', type=int, help=(cs.PORT_INFO_HELP))
+@click.option('-i', '--protocol', prompt='Enter protocol', type=str, help=(cs.PORT_INFO_HELP))
 
-def execute_client(host, port):
+def execute_client(host, port, protocol):
+    s = socket_create(protocol)
     s.connect((host, port))
 
     while True:
