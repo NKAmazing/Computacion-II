@@ -53,7 +53,7 @@ def services(d, concurrency):
     if concurrency == 't':
         print(cs.JUMP_LINE, cs.LAUNCH_SVT, cs.JUMP_LINE)
         if d[0] == socket.AF_INET:
-            print("ipv4")
+            print("Launching with IPv4")
             # Create the server, binding to localhost on a specific
             with ThreadedTCPServer((HOST, PORT), MyTCPHandler) as server:
                 # Activate the server; this will keep running until you
@@ -61,7 +61,7 @@ def services(d, concurrency):
 
                 server.serve_forever()
         elif d[0] == socket.AF_INET6:
-            print("ipv6")
+            print("Launching with IPv6")
             # Create the server, binding to localhost on a specific
             with ThreadedTCPServer6((HOST, PORT), MyTCPHandler) as server:
                 # Activate the server; this will keep running until you
@@ -72,7 +72,7 @@ def services(d, concurrency):
     elif concurrency == 'p':
         print(cs.JUMP_LINE, cs.LAUNCH_SVP, cs.JUMP_LINE)
         if d[0] == socket.AF_INET:
-            print("ipv4")
+            print("Launching with IPv4")
             # Create the server, binding to localhost on a specific port
             with ForkedTCPServer((HOST, PORT), MyTCPHandler) as server:
                 # Activate the server; this will keep running until you
@@ -80,7 +80,7 @@ def services(d, concurrency):
 
                 server.serve_forever()
         elif d[0] == socket.AF_INET6:
-            print("ipv6")
+            print("Launching with IPv6")
             # Create the server, binding to localhost on a specific
             with ForkedTCPServer6((HOST, PORT), MyTCPHandler) as server:
                 # Activate the server; this will keep running until you
