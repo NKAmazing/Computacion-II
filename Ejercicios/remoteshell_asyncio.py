@@ -15,7 +15,7 @@ async def handle_function(reader, writer):
         print (sent.decode())
         data_cmd = sent.decode()
         # Execute cmd with subprocess popen
-        p = subprocess.Popen(data_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
+        p = subprocess.Popen([f"{data_cmd}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
         universal_newlines=True, shell=True)
         out, err = p.communicate()
         if err == '':
