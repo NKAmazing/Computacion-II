@@ -1,13 +1,10 @@
 import asyncio
-import time
 import click
 import subprocess
 import const as cs
 import pickle
-import os
 
 async def handle_function(reader, writer):
-    # print ("Worker ",os.getpid()," atendiendo a ",addr)
     while True:
         addr =  writer.get_extra_info('peername')
         sent = await reader.read(1024)

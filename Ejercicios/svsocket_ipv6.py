@@ -93,7 +93,6 @@ def services(d, concurrency):
 @click.command()
 @click.option('-p', '--port', prompt='Enter port', type=int, help=(cs.PORT_INFO_HELP))
 @click.option('-c', '--concurrency', prompt='Type of Concurrency', help=(cs.TYPE_CONC_HELP))
-# @click.option('-i', '--protocol', prompt='Type of Protocol', help=(cs.TYPE_CONC_HELP))
 
 def execute(port, concurrency):
     global HOST, PORT
