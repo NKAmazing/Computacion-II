@@ -1,24 +1,26 @@
-from celery import Celery
-import os, time
+import click
 import const as cs
-import math
 import numpy as np
 import multiprocessing as mp
+import time
+from tasks import *
 
-app = Celery('tasks', broker='redis://localhost', backend='redis://localhost:6379')
+@click.command()
+@click.option('-p', '--path', prompt='Enter path', type=str, help=(cs.PATH_ARG_HELP))
+@click.option('-c', '--calculate', prompt='Enter calculation operation', help=(cs.OP_ARG_HELP))
+def main(path, calculate):
+    execute(path, calculate)
 
-@app.task
-def execute(path, calculate):
-    # manejo de archivos
-    file_operator(path, calculate)
-
-@app.task
 def matrix_function(result):
     array_mx = np.array(result)
     return array_mx
 
-@app.task
-def file_operator(path, calculate):
+def execute(path, calculate):
+    # manejo de archivos
+    fd = file_operator(path)
+    execute_mp(calculate, fd)
+
+def file_operator(path):
     # revisa si no existe, en cuyo caso lo crea
     with open(f"{path}", "w") as fd:
         fd.write(cs.MATRIX)
@@ -26,28 +28,7 @@ def file_operator(path, calculate):
     # abro el archivo
     fd = open(f"{path}", "r")
     # llamo a la funcion que ejecutara mp
-    execute_mp(calculate, fd)
-
-@app.task
-def square_function(x):
-    # calcula la potencia al cuadrado
-    print(f"{cs.PS_PID_MSG} {os.getpid()} {cs.SQP_MSG} ")
-    print(f"{cs.JUMP_LINE} {x}")
-    return (pow(x, 2))
-
-@app.task
-def root_function(x):
-    # calcula la raiz cuadrada
-    print(f"{cs.PS_PID_MSG} {os.getpid()} {cs.SQRT_MSG} ")
-    print(f"{cs.JUMP_LINE} {x}")
-    return (math.sqrt(x))
-
-@app.task
-def log_function(x):
-    # calcula el logaritmo
-    print(f"{cs.PS_PID_MSG} {os.getpid()} {cs.LOG_MSG} ")
-    print(f"{cs.JUMP_LINE} {x}")
-    return (math.log(x, 10))
+    return fd
 
 def execute_mp(calculate, fd):
     result = []
@@ -91,3 +72,6 @@ def execute_mp(calculate, fd):
     # cierro el archivo
     fd.close()
     print(cs.END_MSG)
+
+if __name__ == '__main__':
+    main()
