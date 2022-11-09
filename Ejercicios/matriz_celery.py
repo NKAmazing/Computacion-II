@@ -1,7 +1,6 @@
 import click
 import const as cs
 import numpy as np
-import multiprocessing as mp
 import time
 from tasks import *
 
@@ -41,23 +40,21 @@ def execute_mp(calculate, fd):
         matrix.append(split)
 
     print(matrix)
-    
-    # ejecuto pool
-    pool = mp.Pool(processes=(4))
+
     print(cs.JUMP_LINE)
     # ejecuto la operacion
     print(cs.OP_TITLE, calculate)
     print(cs.JUMP_LINE)
     for m in matrix:
         if calculate == 'pot': 
-            opt = pool.map(square_function, m)
-            result.append(opt)
+            opt = square_function.delay(m)
+            result.append(opt.get())
         elif calculate == 'raiz':
-            opt = pool.map(root_function, m)
-            result.append(opt)
+            opt = root_function.delay(m)
+            result.append(opt.get())
         elif calculate == 'log':
-            opt = pool.map(log_function, m)
-            result.append(opt)
+            opt = log_function.delay(m)
+            result.append(opt.get())
         else:
             print(cs.UNK_OP)
             time.sleep(0.5)
